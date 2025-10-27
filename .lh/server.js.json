@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1761547147844,
@@ -16,6 +16,10 @@
                 {
                     "date": 1761559006883,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,11 +12,23 @@\n \r\n // Kết nối MongoDB\r\n connectDB();\r\n \r\n-app.use(cors(\"*\"));\r\n-// app.options(\"*\", cors());\r\n+// app.use(cors(\"*\"));\r\n+// // app.options(\"*\", cors());\r\n+import cors from \"cors\";\r\n \r\n+app.use(cors({\r\n+  origin: [\"https://foodnote-fe.vercel.app\", \"http://localhost:3000\"],\r\n+  credentials: true, // nếu dùng cookie/session\r\n+  methods: [\"GET\", \"POST\", \"PUT\", \"DELETE\", \"OPTIONS\"],\r\n+  allowedHeaders: [\"Content-Type\", \"Authorization\"]\r\n+}));\r\n+\r\n+// OPTIONS preflight cho mobile\r\n+app.options(\"*\", cors());\r\n+\r\n+\r\n // Routes\r\n app.use(\"/api/restaurants\", restaurantRoutes);\r\n \r\n // Uploads (menu images)\r\n"
+                },
+                {
+                    "date": 1761565802736,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,47 @@\n+import express from \"express\";\r\n+import cors from \"cors\";\r\n+import dotenv from \"dotenv\";\r\n+import connectDB from \"./src/config/db.js\";\r\n+import restaurantRoutes from \"./src/routes/restaurantRoute.js\";\r\n+\r\n+dotenv.config();\r\n+const app = express();\r\n+\r\n+// Middleware parse JSON\r\n+app.use(express.json());\r\n+\r\n+// Kết nối MongoDB\r\n+connectDB();\r\n+\r\n+// app.use(cors(\"*\"));\r\n+// // app.options(\"*\", cors());\r\n+// import cors from \"cors\";//\r\n+\r\n+app.use(\r\n+  cors({\r\n+    origin: [\r\n+      \"https://food-note-client-next.vercel.app/\",\r\n+      \"http://localhost:3000\",\r\n+    ],\r\n+    credentials: true, // nếu dùng cookie/session\r\n+    methods: [\"GET\", \"POST\", \"PUT\", \"DELETE\", \"OPTIONS\"],\r\n+    allowedHeaders: [\"Content-Type\", \"Authorization\"],\r\n+  })\r\n+);\r\n+\r\n+// OPTIONS preflight cho mobile\r\n+app.options(\"*\", cors());\r\n+\r\n+// Routes\r\n+app.use(\"/api/restaurants\", restaurantRoutes);\r\n+\r\n+// Uploads (menu images)\r\n+import path from \"path\";\r\n+app.use(\"/uploads\", express.static(path.join(process.cwd(), \"uploads\")));\r\n+\r\n+// Test route\r\n+app.get(\"/\", (req, res) => res.send(\"Server running...\"));\r\n+\r\n+// Start server\r\n+const PORT = process.env.PORT || 5000;\r\n+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));\r\n"
                 }
             ],
             "date": 1761547147844,

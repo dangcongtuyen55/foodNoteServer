@@ -15,11 +15,14 @@ connectDB();
 
 // app.use(cors("*"));
 // // app.options("*", cors());
-import cors from "cors";
+// import cors from "cors";//
 
 app.use(
   cors({
-    origin: ["https://foodnote-fe.vercel.app", "http://localhost:3000"],
+    origin: [
+      "https://food-note-client-next.vercel.app/",
+      "http://localhost:3000",
+    ],
     credentials: true, // nếu dùng cookie/session
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
