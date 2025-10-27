@@ -13,8 +13,21 @@ app.use(express.json());
 // Kết nối MongoDB
 connectDB();
 
-app.use(cors("*"));
-// app.options("*", cors());
+// app.use(cors("*"));
+// // app.options("*", cors());
+import cors from "cors";
+
+app.use(
+  cors({
+    origin: ["https://foodnote-fe.vercel.app", "http://localhost:3000"],
+    credentials: true, // nếu dùng cookie/session
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+// OPTIONS preflight cho mobile
+app.options("*", cors());
 
 // Routes
 app.use("/api/restaurants", restaurantRoutes);

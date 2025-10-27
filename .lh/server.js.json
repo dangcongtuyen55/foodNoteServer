@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 1,
+            "activePatchIndex": 2,
             "patches": [
                 {
                     "date": 1761547147844,
@@ -12,6 +12,10 @@
                 {
                     "date": 1761557281991,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,10 @@\n \r\n // Kết nối MongoDB\r\n connectDB();\r\n \r\n-app.use(cors());\r\n+app.use(cors(\"*\"));\r\n+// app.options(\"*\", cors());\r\n \r\n // Routes\r\n app.use(\"/api/restaurants\", restaurantRoutes);\r\n \r\n"
+                },
+                {
+                    "date": 1761559006883,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,11 +12,23 @@\n \r\n // Kết nối MongoDB\r\n connectDB();\r\n \r\n-app.use(cors(\"*\"));\r\n-// app.options(\"*\", cors());\r\n+// app.use(cors(\"*\"));\r\n+// // app.options(\"*\", cors());\r\n+import cors from \"cors\";\r\n \r\n+app.use(cors({\r\n+  origin: [\"https://foodnote-fe.vercel.app\", \"http://localhost:3000\"],\r\n+  credentials: true, // nếu dùng cookie/session\r\n+  methods: [\"GET\", \"POST\", \"PUT\", \"DELETE\", \"OPTIONS\"],\r\n+  allowedHeaders: [\"Content-Type\", \"Authorization\"]\r\n+}));\r\n+\r\n+// OPTIONS preflight cho mobile\r\n+app.options(\"*\", cors());\r\n+\r\n+\r\n // Routes\r\n app.use(\"/api/restaurants\", restaurantRoutes);\r\n \r\n // Uploads (menu images)\r\n"
                 }
             ],
             "date": 1761547147844,
