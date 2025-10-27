@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/config/db.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1761548480524,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1761548480524,
+            "name": "Commit-0",
+            "content": "import mongoose from \"mongoose\";\r\n\r\nexport const connectDB = async () => {\r\n  try {\r\n    const conn = await mongoose.connect(process.env.DB_URI, {\r\n      // ✅ Từ Mongoose 6 trở lên, các tùy chọn này tự bật mặc định\r\n      // nên bạn KHÔNG cần `useUnifiedTopology`, `useNewUrlParser`, hay `useCreateIndex`\r\n    });\r\n\r\n    console.log(\"✅ MongoDB connected success\");\r\n  } catch (error) {\r\n    console.error(\"❌ Database connection failed:\", error.message);\r\n    process.exit(1);\r\n  }\r\n};\r\nexport default connectDB;\r\n"
+        }
+    ]
+}

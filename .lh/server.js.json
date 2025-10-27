@@ -1,0 +1,18 @@
+{
+    "sourceFile": "server.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1761547147844,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1761547147844,
+            "name": "Commit-0",
+            "content": "import express from \"express\";\r\nimport cors from \"cors\";\r\nimport dotenv from \"dotenv\";\r\nimport connectDB from \"./src/config/db.js\";\r\nimport restaurantRoutes from \"./src/routes/restaurantRoute.js\";\r\n\r\ndotenv.config();\r\nconst app = express();\r\n\r\n// Middleware parse JSON\r\napp.use(express.json());\r\n\r\n// Kết nối MongoDB\r\nconnectDB();\r\n\r\napp.use(cors());\r\n\r\n// Routes\r\napp.use(\"/api/restaurants\", restaurantRoutes);\r\n\r\n// Uploads (menu images)\r\nimport path from \"path\";\r\napp.use(\"/uploads\", express.static(path.join(process.cwd(), \"uploads\")));\r\n\r\n// Test route\r\napp.get(\"/\", (req, res) => res.send(\"Server running...\"));\r\n\r\n// Start server\r\nconst PORT = process.env.PORT || 5000;\r\napp.listen(PORT, () => console.log(`Server running on port ${PORT}`));\r\n"
+        }
+    ]
+}

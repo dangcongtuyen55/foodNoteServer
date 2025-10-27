@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/controllers/restaurantController.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1761547016967,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1761547016967,
+            "name": "Commit-0",
+            "content": "import Restaurant from \"../models/restaurantModel.js\";\r\n\r\n// 🟢 Lấy danh sách (chỉ lấy quán chưa xóa)\r\nexport const getRestaurants = async (req, res) => {\r\n  try {\r\n    const data = await Restaurant.find({ isDeleted: false }).sort({\r\n      createdAt: -1,\r\n    });\r\n    res.json(data);\r\n  } catch (error) {\r\n    res.status(500).json({ message: error.message });\r\n  }\r\n};\r\n\r\n// 🟢 Lấy chi tiết 1 quán\r\nexport const getRestaurantById = async (req, res) => {\r\n  try {\r\n    const item = await Restaurant.findOne({\r\n      _id: req.params.id,\r\n      isDeleted: false,\r\n    });\r\n    if (!item)\r\n      return res.status(404).json({ message: \"Không tìm thấy quán ăn\" });\r\n    res.json(item);\r\n  } catch (error) {\r\n    res.status(500).json({ message: error.message });\r\n  }\r\n};\r\n\r\n// 🟢 Tạo mới quán ăn\r\nexport const createRestaurant = async (req, res) => {\r\n  try {\r\n    const body = req.body;\r\n\r\n    // Nếu có file upload (multer + Cloudinary)\r\n    if (req.file) {\r\n      // CloudinaryStorage tự gán URL vào req.file.path\r\n      body.menuImage = req.file.path;\r\n    }\r\n\r\n    const newItem = new Restaurant(body);\r\n    const saved = await newItem.save();\r\n\r\n    res.status(201).json(saved);\r\n  } catch (error) {\r\n    res.status(400).json({ message: error.message });\r\n  }\r\n};\r\n\r\n// 🟢 Cập nhật quán ăn\r\nexport const updateRestaurant = async (req, res) => {\r\n  try {\r\n    const updateData = req.body;\r\n    if (req.file) {\r\n      updateData.menuImage = `/uploads/${req.file.filename}`;\r\n    }\r\n\r\n    const updated = await Restaurant.findOneAndUpdate(\r\n      { _id: req.params.id, isDeleted: false },\r\n      updateData,\r\n      { new: true }\r\n    );\r\n    if (!updated)\r\n      return res.status(404).json({ message: \"Không tìm thấy quán ăn\" });\r\n    res.json(updated);\r\n  } catch (error) {\r\n    res.status(400).json({ message: error.message });\r\n  }\r\n};\r\n\r\n// 🟢 \"Xóa mềm\" quán ăn\r\nexport const softDeleteRestaurant = async (req, res) => {\r\n  try {\r\n    const deleted = await Restaurant.findByIdAndUpdate(\r\n      req.params.id,\r\n      { isDeleted: true },\r\n      { new: true }\r\n    );\r\n    if (!deleted)\r\n      return res.status(404).json({ message: \"Không tìm thấy quán ăn\" });\r\n    res.json({ message: \"Đã chuyển quán sang trạng thái isDeleted=true\" });\r\n  } catch (error) {\r\n    res.status(500).json({ message: error.message });\r\n  }\r\n};\r\n\r\n// 🟢 Restore quán đã xóa\r\nexport const restoreRestaurant = async (req, res) => {\r\n  try {\r\n    const restored = await Restaurant.findByIdAndUpdate(\r\n      req.params.id,\r\n      { isDeleted: false },\r\n      { new: true }\r\n    );\r\n    if (!restored)\r\n      return res.status(404).json({ message: \"Không tìm thấy quán ăn\" });\r\n    res.json({ message: \"Đã khôi phục quán ăn\" });\r\n  } catch (error) {\r\n    res.status(500).json({ message: error.message });\r\n  }\r\n};\r\n"
+        }
+    ]
+}
