@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1761547147844,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1761557281991,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,10 @@\n \r\n // Kết nối MongoDB\r\n connectDB();\r\n \r\n-app.use(cors());\r\n+app.use(cors(\"*\"));\r\n+// app.options(\"*\", cors());\r\n \r\n // Routes\r\n app.use(\"/api/restaurants\", restaurantRoutes);\r\n \r\n"
                 }
             ],
             "date": 1761547147844,

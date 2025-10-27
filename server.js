@@ -13,7 +13,8 @@ app.use(express.json());
 // Kết nối MongoDB
 connectDB();
 
-app.use(cors());
+app.use(cors("*"));
+// app.options("*", cors());
 
 // Routes
 app.use("/api/restaurants", restaurantRoutes);
